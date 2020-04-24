@@ -1,12 +1,10 @@
 Rails.application.routes.draw do  get 'toppage/index'
   root to: 'toppages#index'
 
-  get 'toppages/index'
-
-  get 'users/index'
-  get 'users/show'
-  get 'users/new'
-  get 'users/create'
+  # URLの見栄えを考慮して個別にルーティングを設定
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
 
   resources :tasks
 
