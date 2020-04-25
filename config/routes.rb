@@ -7,7 +7,7 @@ Rails.application.routes.draw do  get 'toppage/index'
   delete 'logout', to: 'sessions#destroy'
 
   get 'signup', to: 'users#new'
-  resources :users, only: [:index, :show, :new, :create]
+  resources :users, only: [:new, :create]
   
   resources :tasks
 end
