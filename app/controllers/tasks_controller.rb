@@ -1,10 +1,10 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
+  before_action :correct_user, only: [:update, :destroy]
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   
   def index
     if logged_in?
-      @task = current_user.tasks.build  # form_with 用
       @tasks = current_user.tasks.order(id: :desc).page(params[:page])
     end
   end
@@ -54,9 +54,16 @@ private
     @task = Task.find(params[:id])
   end
 
-# Stronge params
+  # Stronge params
   def task_params
     params.require(:task).permit(:content, :status)
   end
 
+  def correct_user
+    @task = current_user.tasks.find_by(id: params[:id])
+    unless @task
+      flash[:danger] = '操作できません'
+      redirect_to root_url
+    end
+  end
 end
